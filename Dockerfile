@@ -1,20 +1,41 @@
-FROM golang:1.19-alpine 
+FROM golang:alpine as builder
 
 WORKDIR /app
+COPY . .
+RUN go mod download 
+RUN go build -o main .
 
-COPY go.mod ./
-COPY go.sum ./
+# Start a new stage from scratch
+FROM alpine:latest
+RUN apk --no-cache add ca-certificates
 
-RUN go mod download
+WORKDIR /root/
 
-COPY ./services/*.go ./services/
-COPY ./router/*.go ./router/
-COPY ./database/*.go ./database/
-COPY local.env ./
-COPY *.go ./
-RUN go build -o /crud-user
+# Copy the Pre-built binary file from the previous stage. Observe we also copied the .env file
+COPY --from=builder /app/main .
+COPY --from=builder /app/.env .       
 
+# Expose port 8080 to the outside world
+EXPOSE 8080
 EXPOSE 3306
-#EXPOSE 8080
 
-CMD [ "/crud-user" ]
+#Command to run the executable
+CMD ["./main"]
+
+
+
+
+#FROM golang:1.19-alpine 
+#
+#WORKDIR /app
+#
+#COPY . ./
+#
+#RUN go mod download
+#
+#RUN go build -o /crud-user
+#
+#EXPOSE 3306
+#EXPOSE 8080
+#
+#CMD [ "/crud-user" ]
