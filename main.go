@@ -3,10 +3,11 @@ package main
 import (
 	"log"
 
-	"example.com/crud-user/database"
-	"example.com/crud-user/router"
 	"github.com/gorilla/mux"
 	"github.com/joho/godotenv"
+
+	"example.com/crud-user/database"
+	"example.com/crud-user/router"
 )
 
 func main() {

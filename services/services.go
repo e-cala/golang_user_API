@@ -6,8 +6,9 @@ import (
 	"log"
 	"net/http"
 
-	"example.com/crud-user/database"
 	"github.com/gorilla/mux"
+
+	"example.com/crud-user/database"
 )
 
 func CreateUser(writer http.ResponseWriter, request *http.Request) {

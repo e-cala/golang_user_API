@@ -4,8 +4,9 @@ import (
 	"fmt"
 	"net/http"
 
-	"example.com/crud-user/services"
 	"github.com/gorilla/mux"
+
+	"example.com/crud-user/services"
 )
 
 func SetupRouter(router *mux.Router) {
