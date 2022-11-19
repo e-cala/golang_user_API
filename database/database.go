@@ -6,6 +6,8 @@ import (
 
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
+
+	"example.com/crud-user/logs"
 )
 
 var (
@@ -22,9 +24,9 @@ func InitDatabase() {
 	dsn := fmt.Sprintf("%s:%s@tcp(%s:3306)/%s?charset=utf8mb4&parseTime=True&loc=Local", dbUser, dbPass, dbHost, dbName)
 	DBConn, err = gorm.Open(mysql.Open(dsn), &gorm.Config{})
 	if err != nil {
-		panic("failed to connect database")
+		logs.Error.Panic("Failed to connect database")
 	}
-	fmt.Println("Database connection successfully opened")
+	logs.Info.Println("Database connection successfully opened")
 	DBConn.AutoMigrate(&User{})
-	fmt.Println("Database Migrated")
+	logs.Info.Println("Database Migrated")
 }

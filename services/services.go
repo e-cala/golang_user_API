@@ -2,13 +2,12 @@ package services
 
 import (
 	"encoding/json"
-	"fmt"
-	"log"
 	"net/http"
 
 	"github.com/gorilla/mux"
 
 	"example.com/crud-user/database"
+	"example.com/crud-user/logs"
 )
 
 func CreateUser(writer http.ResponseWriter, request *http.Request) {
@@ -16,10 +15,10 @@ func CreateUser(writer http.ResponseWriter, request *http.Request) {
 	var user database.User
 	err := json.NewDecoder(request.Body).Decode(&user)
 	if err != nil {
-		log.Fatalln("There was an error encoding the request body into the struct")
+		logs.Error.Println("There was an error encoding the request body into the struct")
 	}
 	database.DBConn.Create(&user)
-	fmt.Println(user)
+	logs.Info.Println(user)
 }
 
 func ReadUser(writer http.ResponseWriter, request *http.Request) {
@@ -35,7 +34,7 @@ func UpdateUser(writer http.ResponseWriter, request *http.Request) {
 	params := mux.Vars(request)
 	err := json.NewDecoder(request.Body).Decode(&user)
 	if err != nil {
-		log.Fatalln("There was an error encoding the request body into the struct")
+		logs.Error.Println("There was an error encoding the request body into the struct")
 	}
 	database.DBConn.Model(&user).
 		Where("email = ?", params["email"]).
