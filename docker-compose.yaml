@@ -12,15 +12,12 @@ services:
   database:
     container_name: mysql-container
     image: mysql
-    expose:
-      - "3306"
     ports:
       - "3306:3306"
     environment:
-      - MYSQL_ROOT_HOST=${DB_HOST}
       - MYSQL_USER=${DB_USERNAME}
       - MYSQL_PASSWORD=${DB_PASSWORD}
       - MYSQL_DATABASE=${DB_NAME}
       - MYSQL_ROOT_PASSWORD=${DB_PASSWORD}
-#    volumes:
-#      - ./mysql:/var/lib/mysql
+    volumes:
+      - ./mysql:/var/lib/mysql
