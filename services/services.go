@@ -16,10 +16,10 @@ func CreateUser(writer http.ResponseWriter, request *http.Request) {
 	var user models.User
 	err := json.NewDecoder(request.Body).Decode(&user)
 	if err != nil {
-		logs.Info.Println("There was an error encoding the request body into the struct")
+		logs.Warning.Println(http.StatusBadRequest, " - There was an error encoding the request body into the struct")
 	}
 	database.DBConn.Create(&user)
-	logs.Info.Println(user)
+	logs.Info.Println(http.StatusCreated, " - User created successfully")
 }
 
 func ReadUser(writer http.ResponseWriter, request *http.Request) {
@@ -35,7 +35,7 @@ func UpdateUser(writer http.ResponseWriter, request *http.Request) {
 	params := mux.Vars(request)
 	err := json.NewDecoder(request.Body).Decode(&user)
 	if err != nil {
-		logs.Info.Println("There was an error encoding the request body into the struct")
+		logs.Warning.Println(http.StatusBadRequest, " - There was an error encoding the request body into the struct")
 	}
 	database.DBConn.Model(&user).
 		Where("email = ?", params["email"]).
@@ -43,6 +43,7 @@ func UpdateUser(writer http.ResponseWriter, request *http.Request) {
 			FirstName: user.FirstName,
 			LastName:  user.LastName,
 			Email:     user.Email})
+	logs.Info.Println(http.StatusCreated, " - User updated successfully")
 }
 
 func DeleteUser(writer http.ResponseWriter, request *http.Request) {
@@ -50,4 +51,5 @@ func DeleteUser(writer http.ResponseWriter, request *http.Request) {
 	var user []models.User
 	params := mux.Vars(request)["email"]
 	database.DBConn.Where("email = ?", params).Delete(&user)
+	logs.Info.Println(http.StatusCreated, " - User deleted successfully")
 }
