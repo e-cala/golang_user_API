@@ -21,21 +21,3 @@ EXPOSE 3306
 
 #Command to run the executable
 CMD ["./main"]
-
-
-
-
-#FROM golang:1.19-alpine 
-#
-#WORKDIR /app
-#
-#COPY . ./
-#
-#RUN go mod download
-#
-#RUN go build -o /crud-user
-#
-#EXPOSE 3306
-#EXPOSE 8080
-#
-#CMD [ "/crud-user" ]

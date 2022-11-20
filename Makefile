@@ -6,7 +6,7 @@ build:
 clean:
 	go clean
 
-run:
+run: build
 	./"$(BIN)"
 
 .PHONY: build clean run

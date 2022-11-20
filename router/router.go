@@ -1,11 +1,11 @@
 package router
 
 import (
-	"fmt"
 	"net/http"
 
 	"github.com/gorilla/mux"
 
+	"example.com/crud-user/logs"
 	"example.com/crud-user/services"
 )
 
@@ -18,5 +18,5 @@ func SetupRouter(router *mux.Router) {
 
 func SetupServer(router *mux.Router) {
 	http.ListenAndServe(":8080", router)
-	fmt.Printf("Listening to port 8080")
+	logs.Info.Println("Listening to port 8080")
 }
