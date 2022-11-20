@@ -8,14 +8,15 @@ import (
 
 	"example.com/crud-user/database"
 	"example.com/crud-user/logs"
+	"example.com/crud-user/models"
 )
 
 func CreateUser(writer http.ResponseWriter, request *http.Request) {
 	writer.Header().Set("Content-Type", "application/json")
-	var user database.User
+	var user models.User
 	err := json.NewDecoder(request.Body).Decode(&user)
 	if err != nil {
-		logs.Error.Println("There was an error encoding the request body into the struct")
+		logs.Info.Println("There was an error encoding the request body into the struct")
 	}
 	database.DBConn.Create(&user)
 	logs.Info.Println(user)
@@ -23,22 +24,22 @@ func CreateUser(writer http.ResponseWriter, request *http.Request) {
 
 func ReadUser(writer http.ResponseWriter, request *http.Request) {
 	writer.Header().Set("Content-Type", "application/json")
-	var userList []database.User
+	var userList []models.User
 	database.DBConn.Find(&userList)
 	json.NewEncoder(writer).Encode(userList)
 }
 
 func UpdateUser(writer http.ResponseWriter, request *http.Request) {
 	writer.Header().Set("Content-Type", "applicaiton/json")
-	var user database.User
+	var user models.User
 	params := mux.Vars(request)
 	err := json.NewDecoder(request.Body).Decode(&user)
 	if err != nil {
-		logs.Error.Println("There was an error encoding the request body into the struct")
+		logs.Info.Println("There was an error encoding the request body into the struct")
 	}
 	database.DBConn.Model(&user).
 		Where("email = ?", params["email"]).
-		Updates(database.User{
+		Updates(models.User{
 			FirstName: user.FirstName,
 			LastName:  user.LastName,
 			Email:     user.Email})
@@ -46,7 +47,7 @@ func UpdateUser(writer http.ResponseWriter, request *http.Request) {
 
 func DeleteUser(writer http.ResponseWriter, request *http.Request) {
 	writer.Header().Set("Content-Type", "appliation/json")
-	var user []database.User
+	var user []models.User
 	params := mux.Vars(request)["email"]
 	database.DBConn.Where("email = ?", params).Delete(&user)
 }

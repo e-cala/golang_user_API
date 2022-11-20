@@ -7,7 +7,7 @@ build:
 clean:
 	go clean
 
-run:
+run: build
 	./"$(BIN)"
 
 image:
