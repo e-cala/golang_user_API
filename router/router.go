@@ -17,6 +17,6 @@ func SetupRouter(router *mux.Router) {
 }
 
 func SetupServer(router *mux.Router) {
-	http.ListenAndServe(":8080", router)
-	logs.Info.Println("Listening to port 8080")
+	http.ListenAndServe(":9080", router)
+	logs.Info.Println("Listening to port 9080")
 }

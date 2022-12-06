@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"os"
 
+	"github.com/joho/godotenv"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 
@@ -19,10 +20,11 @@ type User struct {
 
 var (
 	DBConn *gorm.DB
+	err    error
 )
 
 func InitDatabase() {
-	var err error
+	godotenv.Load()
 	dbUser := os.Getenv("DB_USERNAME")
 	dbPass := os.Getenv("DB_PASSWORD")
 	dbHost := os.Getenv("DB_HOST")
@@ -34,7 +36,10 @@ func InitDatabase() {
 	if err != nil {
 		logs.Error.Println("Failed to connect database")
 	}
-	logs.Info.Println("Database connection successfully opened")
+	migrate()
+}
+
+func migrate() {
 	DBConn.AutoMigrate(&User{})
-	logs.Info.Println("Database Migrated")
+	logs.Info.Println("Database migration completed!")
 }
