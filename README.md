@@ -10,3 +10,4 @@ Project structure example of a crud service for users written in Go and connecte
 - **Docker**    -> To containerize my project environment <br>
 - **YAML**      -> To run Docker compose in order to run several dependant containers at once (Service + MySQL containers) <br>
 - **Makefile**  -> To automate project builds and help developers to be able to run the project without previous golang knowledge
+- **CORS**      -> Used handlers and CORS middleware to wrap my server. More info here: https://www.stackhawk.com/blog/configuring-cors-for-go/
